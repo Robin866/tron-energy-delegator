@@ -26,7 +26,7 @@ const tronWeb = new TronWeb({
 
 tronWeb.setAddress(originWalletAddress);
 
-const ENERGY_LIMIT = 5000; // 每次代理的能量数量
+const ENERGY_LIMIT = 5725; // 每次代理的能量数量
 
 // 能量代理 API
 app.post('/delegate', async (req, res) => {
@@ -62,5 +62,10 @@ app.post('/delegate', async (req, res) => {
 // 启动服务器
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  const LIVE_URL = process.env.LIVE_URL || `http://localhost:${PORT}`;
+  if (process.env.LIVE_URL) {
+    console.log(`Server is live at ${LIVE_URL}`);
+  } else {
+    console.log(`Server running locally on ${LIVE_URL}`);
+  }
 });
