@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TRON Energy Distribution</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 50px;
+      text-align: center;
+    }
+    input {
+      width: 300px;
+      padding: 10px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    .message {
+      margin-top: 20px;
+      font-size: 18px;
+      color: green;
+    }
+    .error {
+      margin-top: 20px;
+      font-size: 18px;
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h1>TRON Energy Distribution System</h1>
+  <input type="text" id="walletAddress" placeholder="Enter Wallet Address" />
+  <br />
+  <button id="delegateButton">Delegate Energy</button>
+  <div id="message" class="message"></div>
+  <div id="error" class="error"></div>
+
+  <script>
+    document.getElementById('delegateButton').addEventListener('click', async () => {
+      const walletAddress = document.getElementById('walletAddress').value;
+      const messageDiv = document.getElementById('message');
+      const errorDiv = document.getElementById('error');
+      messageDiv.textContent = '';
+      errorDiv.textContent = '';
+
+      if (!walletAddress) {
+        errorDiv.textContent = 'Please enter a valid wallet address.';
+        return;
+      }
+
+      try {
+        const response = await fetch('http://localhost:3000/delegate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ walletAddress }),
+        });
+        const result = await response.json();
+
+        if (result.success) {
+          messageDiv.textContent = `Successfully delegated 65000 energy to ${walletAddress}`;
+        } else {
+          errorDiv.textContent = result.message || 'Failed to delegate energy.';
+        }
+      } catch (error) {
+        errorDiv.textContent = 'An error occurred while processing your request.';
+      }
+    });
+  </script>
+</body>
+</html>
