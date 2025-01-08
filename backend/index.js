@@ -64,8 +64,10 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   const LIVE_URL = process.env.LIVE_URL || `http://localhost:${PORT}`;
   if (process.env.LIVE_URL) {
-    console.log(`Server is live at ${LIVE_URL}`);
+    console.log(`Server is live at: ${LIVE_URL}`);
+    console.log(`Running on port: ${PORT}`);
   } else {
-    console.log(`Server running locally on ${LIVE_URL}`);
+    console.log(`Server running locally at: ${LIVE_URL}`);
+    console.log(`Running on port: ${PORT}`);
   }
 });
