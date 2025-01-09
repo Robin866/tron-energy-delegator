@@ -68,7 +68,7 @@ app.post('/delegate', async (req, res) => {
   }
 
   try {
-    const trxToFreeze = await getTRXToFreezeForEnergy(ENERGY_PER_TRANSACTION);
+    const trxToFreeze = Math.round(await getTRXToFreezeForEnergy(ENERGY_PER_TRANSACTION));
     const amountInSun = tronWeb.toSun(trxToFreeze); // 将 TRX 转换为 SUN
     const transaction = await tronWeb.transactionBuilder.delegateResource(
       amountInSun, 
