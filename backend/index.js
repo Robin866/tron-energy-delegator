@@ -26,7 +26,38 @@ const tronWeb = new TronWeb({
 
 tronWeb.setAddress(originWalletAddress);
 
-const ENERGY_LIMIT = 5725; // 每次代理的能量数量
+const ENERGY_PER_TRANSACTION = 65000; // 每次代理的能量数量
+
+async function getTRXToFreezeForEnergy(desiredEnergy) {
+  try {
+      // Replace with a valid TRON address
+      const address = originWalletAddress;
+      const resources = await tronWeb.trx.getAccountResources(address);
+
+      const totalEnergyLimit = resources.TotalEnergyLimit;
+      const totalEnergyWeight = resources.TotalEnergyWeight;
+
+      if (totalEnergyLimit && totalEnergyWeight) {
+          const trxToFreeze = (desiredEnergy * totalEnergyWeight) / totalEnergyLimit;
+          return trxToFreeze;
+      } else {
+          throw new Error('Unable to retrieve network resource parameters.');
+      }
+  } catch (error) {
+      console.error('Error calculating TRX to freeze:', error);
+      throw error;
+  }
+}
+
+// Example usage
+getTRXToFreezeForEnergy(ENERGY_PER_TRANSACTION)
+  .then(trx => {
+      console.log(`To obtain 65,000 Energy, you need to freeze approximately ${trx} TRX.`);
+  })
+  .catch(error => {
+      console.error('Calculation failed:', error);
+  });
+
 
 // 能量代理 API
 app.post('/delegate', async (req, res) => {
@@ -37,8 +68,10 @@ app.post('/delegate', async (req, res) => {
   }
 
   try {
+    const trxToFreeze = await getTRXToFreezeForEnergy(ENERGY_PER_TRANSACTION);
+    const amountInSun = tronWeb.toSun(trxToFreeze); // 将 TRX 转换为 SUN
     const transaction = await tronWeb.transactionBuilder.delegateResource(
-      tronWeb.toSun(ENERGY_LIMIT), // 将 TRX 转换为 SUN
+      amountInSun, 
       walletAddress,
       'ENERGY', // 代理能量
       originWalletAddress,
