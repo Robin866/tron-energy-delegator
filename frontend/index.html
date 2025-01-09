@@ -1,78 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TRON Energy Distribution</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 50px;
-      text-align: center;
-    }
-    input {
-      width: 300px;
-      padding: 10px;
-      font-size: 16px;
-    }
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      margin-top: 20px;
-      cursor: pointer;
-    }
-    .message {
-      margin-top: 20px;
-      font-size: 18px;
-      color: green;
-    }
-    .error {
-      margin-top: 20px;
-      font-size: 18px;
-      color: red;
-    }
-  </style>
-</head>
-<body>
-  <h1>TRON Energy Distribution System</h1>
-  <input type="text" id="walletAddress" placeholder="Enter Wallet Address" />
-  <br />
-  <button id="delegateButton">Delegate Energy</button>
-  <div id="message" class="message"></div>
-  <div id="error" class="error"></div>
-
-  <script>
-    document.getElementById('delegateButton').addEventListener('click', async () => {
-      const walletAddress = document.getElementById('walletAddress').value;
-      const messageDiv = document.getElementById('message');
-      const errorDiv = document.getElementById('error');
-      messageDiv.textContent = '';
-      errorDiv.textContent = '';
-
-      if (!walletAddress) {
-        errorDiv.textContent = 'Please enter a valid wallet address.';
-        return;
-      }
-
-      try {
-        const response = await fetch('https://tron-energy-delegator.onrender.com/delegate', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ walletAddress }),
-        });
-        const result = await response.json();
-
-        if (result.success) {
-          messageDiv.textContent = `Successfully delegated 65000 energy to ${walletAddress}`;
-        } else {
-          errorDiv.textContent = result.message || 'Failed to delegate energy.';
-        }
-      } catch (error) {
-        errorDiv.textContent = 'An error occurred while processing your request.';
-      }
-    });
-  </script>
-</body>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRON Energy Distribution</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <script src="js/script.js" defer></script> <!-- 加载并在 HTML 解析后执行 -->
+  </head>
+  <body>
+    <div class="container">
+      <h1>TRON Energy Distribution System</h1>
+      <input type="text" id="walletAddress" placeholder="Enter Wallet Address" />
+      <br />
+      <button id="delegateButton">Delegate Energy</button>
+      <div id="message" class="message"></div>
+      <div id="error" class="error"></div>
+    </div>
+  </body>
 </html>
