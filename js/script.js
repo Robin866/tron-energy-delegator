@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
             slogon: "Simple, convenient, and reliable",
             heroprocess: "5 TRX per transaction — Transfer to the platform wallet — Wait for 10 seconds — Proceed with USDT transfer as usual — Save on fees",
             walletinfo: "Platform billing address",
+            copysuccess: "Copied!",
         },
         cn: {
             energyexchange: "能量兑换",
@@ -20,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
             slogon: "简单方便，值得信赖",
             heroprocess: "5TRX/笔——转账至平台钱包——等待10秒——正常进行USDT转账——节省手续费",
             walletinfo: "平台收款地址",
+            copysuccess: "复制成功",
             
         },
     };
@@ -78,7 +80,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 点击复制按钮复制钱包地址
     const copyButton = document.getElementById("copy-button");
-    const walletAddress = document.getElementById("wallet-address").innerText;
+   // const walletAddress = document.getElementById("wallet-address").innerText;
+    const walletAddressElement = document.getElementById("wallet-address");
+    let walletAddress = walletAddressElement.innerText.trim(); // 去掉首尾的空格和换行符
     const copySuccess = document.getElementById("copy-success");
 
     copyButton.addEventListener("click", () => {
