@@ -1,80 +1,99 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const delegateButton = document.getElementById('delegateButton');
-    const walletAddressInput = document.getElementById('walletAddress');
-    const messageDiv = document.getElementById('message');
-    const errorDiv = document.getElementById('error');
-  
-    // Check localStorage to see if the button should be disabled
-    const disableUntil = localStorage.getItem('disableUntil');
-    const currentTime = Date.now();
-  
-    if (disableUntil && currentTime < parseInt(disableUntil, 10)) {
-      disableButton(delegateButton, parseInt(disableUntil, 10) - currentTime);
-    }
-  
-    // Add click event listener for the button
-    delegateButton.addEventListener('click', async () => {
-      const walletAddress = walletAddressInput.value;
-      messageDiv.textContent = '';
-      errorDiv.textContent = '';
-  
-      if (!walletAddress) {
-        errorDiv.textContent = 'Please enter a valid wallet address.';
-        return;
-      }
-  
-      // Disable button immediately and record the disable time
-      disableButton(delegateButton, 3 * 60 * 1000); // Disable for 3 minutes
-      localStorage.setItem('disableUntil', Date.now() + 3 * 60 * 1000);
-  
-      try {
-        const response = await fetch('https://tron-energy-delegator.onrender.com/delegate', {
-        //const response = await fetch('http://localhost:3000/delegate', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ walletAddress }),
+// 等待DOM完全加载后再执行
+document.addEventListener("DOMContentLoaded", () => {
+    const languageContent = {
+        en: {
+            energyexchange: "Energy exchange",
+            platformintro: "About",
+            faq: "FAQ",
+            onlinesupport: "Support",
+            welcomeinfo: "Welcome to the TRON TRC20 network transfer cost-saving assistant",
+            slogon: "Simple, convenient, and reliable",
+            heroprocess: "5 TRX per transaction — Transfer to the platform wallet — Wait for 10 seconds — Proceed with USDT transfer as usual — Save on fees",
+            walletinfo: "Platform billing address",
+        },
+        cn: {
+            energyexchange: "能量兑换",
+            platformintro: "关于我们",
+            faq: "常见问题",
+            onlinesupport: "在线支持",
+            welcomeinfo: "欢迎使用波场Trc20网络转账省钱助手",
+            slogon: "简单方便，值得信赖",
+            heroprocess: "5TRX/笔——转账至平台钱包——等待10秒——正常进行USDT转账——节省手续费",
+            walletinfo: "平台收款地址",
+            
+        },
+    };
+
+    // 切换语言函数
+    
+     function switchLanguage(lang) {
+        // 处理带有 data-lang 的内容
+        document.querySelectorAll("[data-lang]").forEach((el) => {
+            const key = el.getAttribute("data-lang");
+            if (languageContent[lang][key]) {
+                el.textContent = languageContent[lang][key];
+            } else {
+                console.warn(`Missing translation for key: ${key}`);
+            }
         });
-  
-        const result = await response.json();
-  
-        if (result.success) {
-          messageDiv.textContent = `Successfully delegated 65000 energy to ${walletAddress}`;
+
+        // 处理带有 data-lang-cn 和 data-lang-en 的内容
+        document.querySelectorAll("[data-lang-cn], [data-lang-en]").forEach((el) => {
+            if (lang === "cn") {
+                el.innerHTML = el.getAttribute("data-lang-cn");
+            } else if (lang === "en") {
+                el.innerHTML = el.getAttribute("data-lang-en");
+            }
+        });
+    }
+
+
+    // 绑定语言切换事件
+    document.getElementById("en-btn").addEventListener("click", () => switchLanguage("en"));
+    document.getElementById("cn-btn").addEventListener("click", () => switchLanguage("cn"));
+
+    // 初始化语言
+    switchLanguage("cn");
+
+    // 点击缩略图显示完整二维码
+    const qrThumbnail = document.getElementById("qr-thumbnail");
+    const qrPopup = document.getElementById("qr-popup");
+
+    qrThumbnail.addEventListener("click", () => {
+        if (qrPopup) {
+            qrPopup.classList.remove("hidden"); // 移除隐藏类显示大图
+            console.log("Popup displayed");
         } else {
-          errorDiv.textContent = result.message || 'Failed to delegate energy.';
-          // If the request fails, re-enable the button immediately
-          enableButton(delegateButton);
-          localStorage.removeItem('disableUntil');
+            console.error("Error: QR popup element not found!");
         }
-      } catch (error) {
-        errorDiv.textContent = 'An error occurred while processing your request.';
-        // If the request fails, re-enable the button immediately
-        enableButton(delegateButton);
-        localStorage.removeItem('disableUntil');
-      }
     });
-  
-    // Function to disable the button
-    function disableButton(button, duration) {
-      button.disabled = true;
-      button.textContent = `Please wait ${(duration / 1000).toFixed(0)} seconds...`;
-  
-      const interval = setInterval(() => {
-        const remainingTime = parseInt(localStorage.getItem('disableUntil'), 10) - Date.now();
-        if (remainingTime <= 0) {
-          clearInterval(interval);
-          enableButton(button);
-          localStorage.removeItem('disableUntil');
-        } else {
-          button.textContent = `Please wait ${(remainingTime / 1000).toFixed(0)} seconds...`;
+
+    // 点击大图关闭弹出框
+    qrPopup.addEventListener("click", () => {
+        if (qrPopup) {
+            qrPopup.classList.add("hidden"); // 添加隐藏类隐藏大图
+            console.log("Popup hidden");
         }
-      }, 1000);
-    }
-  
-    // Function to enable the button
-    function enableButton(button) {
-      button.disabled = false;
-      button.textContent = 'Delegate Energy';
-    }
-  });
+    });
+
+    // 点击复制按钮复制钱包地址
+    const copyButton = document.getElementById("copy-button");
+    const walletAddress = document.getElementById("wallet-address").innerText;
+    const copySuccess = document.getElementById("copy-success");
+
+    copyButton.addEventListener("click", () => {
+        navigator.clipboard.writeText(walletAddress).then(() => {
+            copySuccess.classList.remove("hidden");
+            setTimeout(() => {
+                copySuccess.classList.add("hidden");
+            }, 1000); // 1秒后隐藏复制成功提示
+        });
+    });
+
+    const menuToggle = document.getElementById("menu-toggle");
+    const nav = document.querySelector("nav");
+
+    menuToggle.addEventListener("click", () => {
+        nav.classList.toggle("active");
+    });
+});
