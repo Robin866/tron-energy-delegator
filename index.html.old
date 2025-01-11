@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRON Energy Distribution</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <script src="js/script.js" defer></script> <!-- 加载并在 HTML 解析后执行 -->
+  </head>
+  <body>
+    <div class="container">
+      <h1>TRON Energy Distribution System</h1>
+      <input type="text" id="walletAddress" placeholder="Enter Wallet Address" />
+      <br />
+      <button id="delegateButton">Delegate Energy</button>
+      <div id="message" class="message"></div>
+      <div id="error" class="error"></div>
+    </div>
+  </body>
+</html>
