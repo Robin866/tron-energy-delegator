@@ -11,6 +11,16 @@ document.addEventListener("DOMContentLoaded", () => {
             heroprocess: "5 TRX per transaction — Transfer to the platform wallet — Wait for 10 seconds — Proceed with USDT transfer as usual — Save on fees",
             walletinfo: "Platform billing address",
             copysuccess: "Copied!",
+            aboutus: "About Us",
+            iconeco: "Economic",
+            iconsafe: "Safe",
+            iconeffi: "Efficient",
+            benefits1: "Solve the problem of excessive TRX fees",
+            benefits2: "Applicable to USDT, contract transfer, etc",
+            benefits3: "Quick and convenient, just transfer to exchange energy",
+            benefits4: "Money Saving Expert for Tron Users",
+            aboutdes: "Trx Saving is an energy exchange platform in the TRON ecosystem, offering a simple, fast, and cost-effective way to reduce TRX expenses for energy consumption, with 24/7 secure and efficient services.",
+
         },
         cn: {
             energyexchange: "能量兑换",
@@ -22,7 +32,15 @@ document.addEventListener("DOMContentLoaded", () => {
             heroprocess: "5TRX/笔——转账至平台钱包——等待10秒——正常进行USDT转账——节省手续费",
             walletinfo: "平台收款地址",
             copysuccess: "复制成功",
-            
+            aboutus: "平台介绍",
+            iconeco: "经济",
+            iconsafe: "安全",
+            iconeffi: "高效",
+            benefits1: "解决 TRX 手续费过高问题",
+            benefits2: "适用USDT、合约转账、部署合约等",
+            benefits3: "快捷方便，只需转账即可兑换能量",
+            benefits4: "Tron 波场用户必备省钱专家",
+            aboutdes: "Trx Saving平台是波场生态中的能量兑换平台。我们的宗旨是为波场交易者降低能量消耗所需TRX费用。兑换流程简单快捷，价格优惠，24小时为您提供更安全且高效的能量兑换服务。",
         },
     };
 
