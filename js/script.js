@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
             platformintro: "About",
             faq: "FAQ",
             onlinesupport: "Support",
-            welcomeinfo: "Welcome to the TRON TRC20 network transfer cost-saving assistant",
+            welcomeinfo: "Welcome to TRON Energy Delegation - Save TRC20 USDT Transaction Fees Easily",
             slogon: "Simple, convenient, and reliable",
             heroprocess: "5 TRX per transaction — Transfer to the platform wallet — Wait for 10 seconds — Proceed with USDT transfer as usual — Save on fees",
             walletinfo: "Platform billing address",
@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("cn-btn").addEventListener("click", () => switchLanguage("cn"));
 
     // 初始化语言
-    switchLanguage("cn");
+    switchLanguage("en");
 
     // 点击缩略图显示完整二维码
     const qrThumbnail = document.getElementById("qr-thumbnail");
